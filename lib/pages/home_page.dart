@@ -1,4 +1,4 @@
-// ignore_for_file: unused_local_variable, avoid_print
+// ignore_for_file: unused_local_variable, avoid_print, unnecessary_null_comparison
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,9 +24,10 @@ class _HomePageState extends State<HomePage> {
   loadData() async {
     try {
       final catalogJson =
-          await rootBundle.loadString("assets/file/catalog.json");
+          await rootBundle.loadString("asset/file/catalog.json");
       final decodedData = jsonDecode(catalogJson);
       var productsData = decodedData["products"];
+
       CatalogModel.items = List.from(productsData)
           .map<Item>((item) => Item.fromMap(item))
           .toList();
@@ -45,14 +46,18 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: ListView.builder(
-          itemCount: CatalogModel.items.length,
-          itemBuilder: (context, index) {
-            return ItemWidget(
-              item: CatalogModel.items[index],
-            );
-          },
-        ),
+        child: (CatalogModel.items != null && CatalogModel.items.isNotEmpty)
+            ? ListView.builder(
+                itemCount: CatalogModel.items.length, // Update this line
+                itemBuilder: (context, index) {
+                  return ItemWidget(
+                    item: CatalogModel.items[index],
+                  );
+                },
+              )
+            : const Center(
+                child: CircularProgressIndicator(),
+              ),
       ),
       drawer: const MyDrawer(),
     );
