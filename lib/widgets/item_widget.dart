@@ -5,7 +5,12 @@ import '../models/catalog.dart';
 class ItemWidget extends StatelessWidget {
   final Item item;
 
-  const ItemWidget({super.key, required this.item});
+  const ItemWidget(
+      {super.key,
+      required this.item,
+      required bool isInCart,
+      required void Function() onRemoveFromCart,
+      required void Function() onAddToCart});
 
   @override
   Widget build(BuildContext context) {
